@@ -29,9 +29,9 @@
         </a>
     </div>
     <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-        <a class="cat-item rounded p-4" href="{{ route('tipe_pekerjaan.index') }}">
+        <a class="cat-item rounded p-4" href="{{ route('kategori.index') }}">
             <i class="fa fa-3x fa-clock text-primary mb-4"></i>
-            <h6 class="mb-3">Total Data Tipe Pekerjaan</h6>
+            <h6 class="mb-3">Total Data Kategori Pekerjaan</h6>
             <p class="mb-0">{{ $totalTipePekerjaan->count() ?? 'Data Belum Ada...' }}</p>
         </a>
     </div>

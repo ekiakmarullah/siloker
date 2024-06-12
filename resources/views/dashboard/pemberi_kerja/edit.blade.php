@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <label for="nama" class="col-md-6 col-form-label">{{ __('Nama Pemberi Kerja*') }}</label>
-                    <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ $pemberi_kerja->nama }}" autocomplete="nama">
+                    <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ $pemberi_kerja->nama ?? '' }}" autocomplete="nama">
 
                     @error('nama')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -37,7 +37,7 @@
 
                 <div class="col-lg-6">
                     <label for="link" class="col-md-4 col-form-label">{{ __('URL') }}</label>
-                    <input id="link" type="text" class="form-control @error('link') is-invalid @enderror" name="link" value="{{ $pemberi_kerja->link }}" autocomplete="link">
+                    <input id="link" type="text" class="form-control @error('link') is-invalid @enderror" name="link" value="{{ $pemberi_kerja->link ?? '' }}" autocomplete="link">
 
                     @error('link')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -48,8 +48,8 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label for="email" class="col-md-4 col-form-label">{{ __('Email*') }}</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $pemberi_kerja->email }}" autocomplete="email">
+                    <label for="email" class="col-md-4 col-form-label">{{ __('Email') }}</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $pemberi_kerja->email ?? '' }}" autocomplete="email">
 
                     @error('email')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -60,8 +60,8 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label for="no_hp" class="col-md-4 col-form-label">{{ __('Nomor HP*') }}</label>
-                    <input id="no_hp" type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $pemberi_kerja->no_hp }}" autocomplete="no_hp">
+                    <label for="no_hp" class="col-md-4 col-form-label">{{ __('Nomor HP') }}</label>
+                    <input id="no_hp" type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $pemberi_kerja->no_hp ?? '' }}" autocomplete="no_hp">
 
                     @error('no_hp')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -71,21 +71,10 @@
                     @enderror
                 </div>
 
-                <div class="col-lg-6">
-                    <label for="alamat" class="col-md-4 col-form-label">{{ __('Alamat*') }}</label>
-                    <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ $pemberi_kerja->alamat }}" autocomplete="alamat">
 
-                    @error('alamat')
-                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <label for="gambar" class="col-md-4 col-form-label">{{ __('Gambar*') }}</label>
-                    <input class="form-control" type="file" id="gambar" name="gambar" value="{{ $pemberi_kerja->gambar }}">
+                    <input class="form-control" type="file" id="gambar" name="gambar">
 
                     @error('gambar')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -98,7 +87,7 @@
 
                 <div class="col-lg-12 mb-3">
                     <label for="deskripsi" class="col-md-4 col-form-label">{{ __('Deskripsi*') }}</label>
-                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $pemberi_kerja->deskripsi }}</textarea>
+                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $pemberi_kerja->deskripsi ?? '' }}</textarea>
 
                     @error('deskripsi')
                     <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
@@ -115,17 +104,12 @@
 </div>
 @endsection
 
-@push('script')
-<script src="https://cdn.tiny.cloud/1/ipgxuvhcxjpgeqpq0yt3d944bfy9em041d6o0fyz5aijin20/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+@push('scripts')
+<script src="https://cdn.tiny.cloud/1/ipgxuvhcxjpgeqpq0yt3d944bfy9em041d6o0fyz5aijin20/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
     selector : "textarea",
-    content_css: 'writer',
-    theme: "silver",
-    plugins: [ 'table powerpaste',
-               'lists media',
-               'paste' ],
-    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify',
+    plugins: 'advlist link image lists',
     })
 </script>
 @endpush

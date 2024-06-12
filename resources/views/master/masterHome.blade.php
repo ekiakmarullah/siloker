@@ -44,7 +44,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-            <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+            <a href="{{ route('home.index') }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                 <h1 class="m-0 text-primary">SiLoker</h1>
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -55,18 +55,15 @@
                     <a href="{{ route('home.index') }}" class="nav-item nav-link active">Beranda</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pekerjaan</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{{asset('jobentry-1.0.0/job-list.html')}}" class="dropdown-item">Job List</a>
-                            <a href="{{asset('jobentry-1.0.0/job-detail.html')}}" class="dropdown-item">Job Detail</a>
+                            <a href="/pekerjaan" class="dropdown-item">Semua Pekerjaan</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Halaman</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{{asset('jobentry-1.0.0/category.html')}}" class="dropdown-item">Job Category</a>
-                            <a href="{{asset('jobentry-1.0.0/testimonial.html')}}" class="dropdown-item">Testimonial</a>
-                            <a href="{{asset('jobentry-1.0.0/404.html')}}" class="dropdown-item">404</a>
+                            <a href="{{ route('home.kategori') }}" class="dropdown-item">Kategori Pekerjaan</a>
                         </div>
                     </div>
                     <a href="{{asset('jobentry-1.0.0/contact.html')}}" class="nav-item nav-link">Contact</a>

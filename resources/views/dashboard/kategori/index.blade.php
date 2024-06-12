@@ -1,7 +1,7 @@
 @extends('master.masterDashboard')
 
 @section('judul')
-    Data Tipe Pekerjaan
+    Data Kategori Pekerjaan
 @endsection
 
 @section('namaHalaman')
@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <a class="btn btn-primary btn-sm mb-3" href="{{ route('tipe_pekerjaan.create') }}">
+    <a class="btn btn-primary btn-sm mb-3" href="{{ route('kategori.create') }}">
         <span>
           <i class="ti ti-circle-plus"></i>
         </span>
@@ -21,7 +21,7 @@
     <thead>
         <tr>
             <th>No.</th>
-            <th>Nama Tipe Pekerjaan</th>
+            <th>Nama Kategori Pekerjaan</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -42,13 +42,13 @@
         $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('tipe_pekerjaan.data') !!}',
+            ajax: '{!! route('kategori.data') !!}',
             columns : [
                 {
                     data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false
                 },
                 {
-                    data: 'nama_tipe_pekerjaan', name: 'nama_tipe_pekerjaan'
+                    data: 'nama_kategori', name: 'nama_kategori'
                 },
                 {
                     data: 'action', name: 'action', orderable:false

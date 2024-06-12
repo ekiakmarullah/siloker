@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\ProfilAdmin;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Models\Kategori;
 use App\Models\Lokasi;
 use App\Models\LowonganPekerjaan;
 use App\Models\PemberiKerja;
-use App\Models\TipePekerjaan;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $totalPemberiKerja = PemberiKerja::all();
         $totalLowonganPekerjaan = LowonganPekerjaan::all();
         $totalLokasi = Lokasi::all();
-        $totalTipePekerjaan = TipePekerjaan::all();
+        $totalTipePekerjaan = Kategori::all();
 
         return view('dashboard.index', compact('judul', 'namaHalaman', 'profil', 'totalProfilAdmin', 'totalAdmin', 'totalPemberiKerja', 'totalLowonganPekerjaan', 'totalLokasi', 'totalTipePekerjaan'));
     }

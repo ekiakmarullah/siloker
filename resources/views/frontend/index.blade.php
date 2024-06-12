@@ -6,36 +6,31 @@
         <!-- Carousel Start -->
         <div class="container-fluid p-0">
             <div class="owl-carousel header-carousel position-relative">
+                @forelse ($dataSlider as $data)
+
                 <div class="owl-carousel-item position-relative">
-                    <img class="img-fluid" src="{{asset('jobentry-1.0.0/img/carousel-1.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('lowongan_pekerjaan/'.$data->gambar)}}" alt="{{ $data->slug }}" style="max-width: 1366px !important; height:768px">
                     <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
                         <div class="container">
                             <div class="row justify-content-start">
                                 <div class="col-10 col-lg-8">
-                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Perfect Job That You Deserved</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
-                                    <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">{{ $data->nama_lowongan_pekerjaan }}</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">{{ $data->nama_pemberi_kerja }}</p>
+                                    <a href="{{ route('home.show', $data->slug) }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Lamar Pekerjaan</a>
+                                    <a href="{{ route('home.pekerjaan') }}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Lebih Banyak Pekerjaan</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="owl-carousel-item position-relative">
-                    <img class="img-fluid" src="{{asset('jobentry-1.0.0/img/carousel-2.jpg')}}" alt="">
-                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-10 col-lg-8">
-                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
-                                    <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    
+                @empty
+
+                <p>Data Lowongan Pekerjaan Tidak Ditemukan</p>
+                    
+                @endforelse
+                
+                
             </div>
         </div>
         <!-- Carousel End -->
@@ -48,22 +43,31 @@
                     <div class="col-md-10">
                         <div class="row g-2">
                             <div class="col-md-4">
-                                <input type="text" class="form-control border-0" placeholder="Keyword" />
+                                <form action="cari">
+                                <input type="text" class="form-control border-0" placeholder="Keyword" name="search"/>
+
+                                
                             </div>
                             <div class="col-md-4">
-                                <select class="form-select border-0">
-                                    <option selected>Category</option>
-                                    <option value="1">Category 1</option>
-                                    <option value="2">Category 2</option>
-                                    <option value="3">Category 3</option>
+                                <select class="form-select border-0" name="category">
+                                    <option selected disabled>Pilih Kategori</option>
+                                    @forelse ($category as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_kategori }}</option>
+                                    @empty
+                                        <p>Data Kategori Tidak Ditemukan...</p>
+                                    @endforelse
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-select border-0">
-                                    <option selected>Location</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
+                                <select class="form-select border-0" name="location">
+                                    <option selected disabled>Pilih Lokasi</option>
+                                    @forelse ($lokasi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_kampung }}</option>
+                                    @empty
+                                        <p>Data Lokasi Tidak Ditemukan...</p>
+                                    @endforelse
+                                    
+                                    
                                 </select>
                             </div>
                         </div>
@@ -71,6 +75,7 @@
                     <div class="col-md-2">
                         <button class="btn btn-dark border-0 w-100">Search</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -199,67 +204,65 @@
             
                     </ul>
                     <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            @forelse ($dataLowonganPekerjaan as $dataLoker)
+                    @if ($dataLowonganPekerjaan)
 
-                            <div class="job-item p-4 mb-4">
-                                <div class="row g-4">
-                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('lowongan_pekerjaan/'.$dataLoker->gambar_lowongan_pekerjaan)}}" alt="" style="width: 80px; height: 80px;">
-                                        <div class="text-start ps-4">
-                                            <h5 class="mb-3">{{ $dataLoker->nama_lowongan_pekerjaan }}</h5>
-                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $dataLoker->nama_kampung }}, {{ $dataLoker->nama_kecamatan }}</span>
-                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $dataLoker->nama_tipe_pekerjaan }}</span>
-                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ $dataLoker->besaran_gaji_lowongan_pekerjaan }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                        <div class="d-flex mb-3">
-                                            <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                            <a class="btn btn-primary" href="">Lamar Sekarang</a>
-                                        </div>
-                                        <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Batas Lamaran: {{ $dataLoker->batas_lamaran_pekerjaan }}</small>
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        @forelse ($dataLowonganPekerjaan as $dataLoker)
+
+                        <div class="job-item p-4 mb-4">
+                            <div class="row g-4">
+                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                    <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('lowongan_pekerjaan/'.$dataLoker->gambar_lowongan_pekerjaan)}}" alt="" style="width: 80px; height: 80px;">
+                                    <div class="text-start ps-4">
+                                        <h5 class="mb-3">{{ $dataLoker->nama_lowongan_pekerjaan }}</h5>
+                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $dataLoker->nama_kampung }}, {{ $dataLoker->nama_kecamatan }}</span>
+                                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $dataLoker->nama_kategori }}</span>
+                                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ $dataLoker->besaran_gaji_lowongan_pekerjaan }}</span>
                                     </div>
                                 </div>
-                            </div>
-                                
-                            @empty
-                                <p>Data Lowongan Pekerjaan Tidak Ditemukan...</p>
-                            @endforelse
-                            
-                            <a class="btn btn-primary py-3 px-5" href="">Temukan Lebih Banyak Pekerjaan</a>
-                        </div>
-
-                        <div id="tab-2" class="tab-pane fade show p-0 active">
-                            @forelse ($dataLowonganPekerjaan as $dataLoker)
-
-                            <div class="job-item p-4 mb-4">
-                                <div class="row g-4">
-                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('lowongan_pekerjaan/'.$dataLoker->gambar_lowongan_pekerjaan)}}" alt="" style="width: 80px; height: 80px;">
-                                        <div class="text-start ps-4">
-                                            <h5 class="mb-3">{{ $dataLoker->nama_lowongan_pekerjaan }}</h5>
-                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $dataLoker->nama_kampung }}, {{ $dataLoker->nama_kecamatan }}</span>
-                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $dataLoker->nama_tipe_pekerjaan }}</span>
-                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ $dataLoker->besaran_gaji_lowongan_pekerjaan }}</span>
-                                        </div>
+                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                    <div class="d-flex mb-3">
+                                        <a class="btn btn-light btn-square me-3" href="{{ route('home.show', $item->slug) }}"><i class="far fa-heart text-primary"></i></a>
+                                        <a class="btn btn-primary" href="{{ route('home.show', $item->slug) }}">Lamar Sekarang</a>
                                     </div>
-                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                        <div class="d-flex mb-3">
-                                            <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                            <a class="btn btn-primary" href="">Lamar Sekarang</a>
-                                        </div>
-                                        <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Batas Lamaran: {{ $dataLoker->batas_lamaran_pekerjaan }}</small>
-                                    </div>
+                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Batas Lamaran: {{ $dataLoker->batas_lamaran_pekerjaan }}</small>
                                 </div>
                             </div>
-                                
-                            @empty
-                                <p>Data Lowongan Pekerjaan Tidak Ditemukan...</p>
-                            @endforelse
-                            
-                            <a class="btn btn-primary py-3 px-5" href="">Temukan Lebih Banyak Pekerjaan</a>
                         </div>
+                            
+                        @empty
+                            <p>Data Lowongan Pekerjaan Tidak Ditemukan...</p>
+                        @endforelse
+                        
+                        <a class="btn btn-primary py-3 px-5" href="">Temukan Lebih Banyak Pekerjaan</a>
+                    </div>
+
+
+                        
+                    @else
+
+                    <p>Data Lowongan Pekerjaan Tidak Ditemukan...</p>
+                        
+                    @endif
+
+                    <div id="tab-2" class="tab-pane fade show p-0">
+                        <div class="job-item p-4 mb-4">
+
+                            <div data-behold-id="6HF8q1OCHzrZ2RJpzFuO"></div>
+                            <script>
+                            (() => {
+                                const d=document,s=d.createElement("script");s.type="module";
+                                s.src="https://w.behold.so/widget.js";d.head.append(s);
+                            })();
+                            </script>
+
+                        </div>
+                        
+                        <a class="btn btn-primary py-3 px-5 my-4" href="https://www.instagram.com/lokersabang15/">Temukan Lebih Banyak Pekerjaan</a>
+                    </div>
+                        
+
+                        
                         
                     </div>
                 </div>

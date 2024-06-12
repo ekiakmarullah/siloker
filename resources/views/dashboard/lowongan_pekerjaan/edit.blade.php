@@ -23,9 +23,9 @@
         <form action="{{ route('lowongan_pekerjaan.update', $lowongan_pekerjaan->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <label for="nama" class="col-md col-form-label">{{ __('Judul Lowongan Pekerjaan*') }}</label>
-                    <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ $lowongan_pekerjaan->nama }}" autocomplete="nama">
+                    <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ $lowongan_pekerjaan->nama ?? '' }}" autocomplete="nama">
 
                     @error('nama')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -35,34 +35,9 @@
                     @enderror
                 </div>
 
-                <div class="col-lg-6">
-                    <label for="id_pemberi_kerja" class="col-md col-form-label">{{ __('Nama Pemberi Kerja*') }}</label>
-                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="id_pemberi_kerja">
-
-                        <option selected disabled>Pilih Pemberi Kerja</option>
-                        @forelse ($pemberi_kerja as $item)
-                        @if ($item->id === $lowongan_pekerjaan->id_pemberi_kerja)
-                        <option value="{{ $item->id }}" selected>{{ $item->nama }}</option>
-                        @endif
-                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @empty
-                        <option value="">Data Pemberi Kerja Tidak Ditemukan...</option>
-                        @endforelse
-
-                    </select>
-
-                    @error('id_pemberi_kerja')
-                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-
-                </div>
-
-                <div class="col-lg-6">
-                    <label for="batas_lamaran" class="col-md col-form-label">{{ __('Batas Lamaran*') }}</label>
-                    <input id="batas_lamaran" type="text" class="form-control @error('batas_lamaran') is-invalid @enderror" name="batas_lamaran" value="{{ $lowongan_pekerjaan->batas_lamaran }}" autocomplete="batas_lamaran">
+                <div class="col-lg-4">
+                    <label for="batas_lamaran" class="col-md col-form-label">{{ __('Batas Lamaran Pekerjaan*') }}</label>
+                    <input id="batas_lamaran" type="text" class="form-control @error('batas_lamaran') is-invalid @enderror" name="batas_lamaran" value="{{ $lowongan_pekerjaan->batas_lamaran ?? '' }}" autocomplete="batas_lamaran">
 
                     @error('batas_lamaran')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -72,9 +47,113 @@
                     @enderror
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                    <label for="besaran_gaji" class="col-md col-form-label">{{ __('Besaran Gaji*') }}</label>
+                    <input id="besaran_gaji" type="text" class="form-control @error('besaran_gaji') is-invalid @enderror" name="besaran_gaji" value="{{ $lowongan_pekerjaan->besaran_gaji ?? '' }}" autocomplete="besaran_gaji">
+
+                    @error('besaran_gaji')
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <strong>{{ $message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @enderror
+                </div>
+
+                <div class="col-lg-4">
+                    <label for="pemberi_kerja_id" class="col-md col-form-label">{{ __('Nama Pemberi Kerja*') }}</label> 
+                    <a href="{{ route('tambah_pemberi_kerja') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
+                        <span>
+                            <i class="ti ti-circle-plus"></i>
+                        </span>
+                    </a>
+                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="pemberi_kerja_id">
+
+                        <option selected disabled>Pilih Pemberi Kerja</option>
+                        @forelse ($dataPemberiKerja as $pk)
+                        @if ($pk->id === $pemberi_kerja->pemberi_kerja_id)
+                        <option value="{{ $pk->id }}" selected>{{ $pk->nama }}</option>
+                        @endif
+                        <option value="{{ $pk->id }}">{{ $pk->nama }}</option>
+                        @empty
+                        <option value="">Data Pemberi Kerja Tidak Ditemukan...</option>
+                        @endforelse
+
+                    </select>
+
+                    @error('pemberi_kerja_id')
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <strong>{{ $message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @enderror
+
+                </div>
+
+                <div class="col-lg-4">
+                    <label for="lokasi_id" class="col-md col-form-label">{{ __('Lokasi Pekerjaan*') }}</label>
+                    <a href="{{ route('lokasi.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
+                        <span>
+                            <i class="ti ti-circle-plus"></i>
+                        </span>
+                    </a>
+                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="lokasi_id">
+
+                        <option selected disabled>Pilih Lokasi Pekerjaan</option>
+                        @forelse ($dataLokasi as $lokasi)
+                        @if ($lokasi->id === $pemberi_kerja->lokasi_id)
+                        <option value="{{ $lokasi->id }}" selected>{{ $lokasi->nama_kampung }}</option>
+                        @endif
+                        <option value="{{ $lokasi->id }}">{{ $lokasi->nama_kampung }}</option>
+                        @empty
+                        <option value="">Data Lokasi Tidak Ditemukan...</option>
+                        @endforelse
+
+                    </select>
+
+                    @error('lokasi_id')
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <strong>{{ $message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @enderror
+
+                </div>
+
+                <div class="col-lg-4">
+                    <label for="kategori_id" class="col-md col-form-label">{{ __('Tipe Pekerjaan*') }}</label>
+                    <a href="{{ route('tipe_pekerjaan.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
+                        <span>
+                            <i class="ti ti-circle-plus"></i>
+                        </span>
+                    </a>
+                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="kategori_id">
+
+                        <option selected disabled>Pilih Tipe Pekerjaan</option>
+                        @forelse ($dataTipePekerjaan as $tp)
+                        @if ($tp->id === $lowongan_pekerjaan->kategori_id)
+                        <option value="{{ $tp->id }}" selected>{{ $tp->nama_tipe_pekerjaan }}</option>
+                        @endif
+                        <option value="{{ $tp->id }}">{{ $tp->nama_tipe_pekerjaan }}</option>
+                        @empty
+                        <option value="">Data Tipe Pekerjaan Tidak Ditemukan...</option>
+                        @endforelse
+
+                    </select>
+
+                    @error('kategori_id')
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <strong>{{ $message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @enderror
+
+                </div>
+
+                
+
+                <div class="col-lg-12">
                     <label for="gambar" class="col-md col-form-label">{{ __('Gambar*') }}</label>
-                    <input class="form-control" type="file" id="gambar" name="gambar" value="{{ $lowongan_pekerjaan->gambar }}">
+                    <input class="form-control" type="file" id="gambar" name="gambar">
 
                     @error('gambar')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -85,32 +164,8 @@
                 </div>
 
                 <div class="col-lg-12 mb-3">
-                    <label for="syarat" class="col-md col-form-label">{{ __('Syarat Lowongan Pekerjaan*') }}</label>
-                    <textarea name="syarat" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $lowongan_pekerjaan->syarat }}</textarea>
-
-                    @error('syarat')
-                    <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="col-lg-12 mb-3">
-                    <label for="catatan" class="col-md col-form-label">{{ __('Catatan') }}</label>
-                    <textarea name="catatan" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $lowongan_pekerjaan->catatan }}</textarea>
-
-                    @error('catatan')
-                    <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="col-lg-12 mb-3">
                     <label for="deskripsi" class="col-md col-form-label">{{ __('Deskripsi*') }}</label>
-                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $lowongan_pekerjaan->deskripsi }}</textarea>
+                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area"></textarea>
 
                     @error('deskripsi')
                     <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
@@ -128,16 +183,11 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.tiny.cloud/1/ipgxuvhcxjpgeqpq0yt3d944bfy9em041d6o0fyz5aijin20/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/ipgxuvhcxjpgeqpq0yt3d944bfy9em041d6o0fyz5aijin20/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
     selector : "textarea",
-    content_css: 'writer',
-    theme: "silver",
-    plugins: [ 'table powerpaste',
-               'lists media',
-               'paste' ],
-    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify',
+    plugins: 'advlist link image lists',
     })
 </script>
 @endpush

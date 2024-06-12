@@ -9,7 +9,7 @@ use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\LowonganPekerjaanController;
 use App\Http\Controllers\PemberiKerjaController;
 use App\Http\Controllers\ProfilAdminController;
-use App\Http\Controllers\TipePekerjaanController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\InstgramAuthController;
 
 /*
@@ -77,20 +77,20 @@ Route::post('/dashboard/lokasi/update/{id}', [LokasiController::class, 'update']
 
 Route::delete('/dashboard/lokasi/delete/{id}', [LokasiController::class, 'delete'])->name('lokasi.delete')->middleware('auth');
 
-// TIPE PEKERJAAN ROUTE
-Route::get('/dashboard/tipe-pekerjaan', [TipePekerjaanController::class, 'index'])->name('tipe_pekerjaan.index')->middleware('auth');
+// KATEGORI ROUTE
+Route::get('/dashboard/kategori', [KategoriController::class, 'index'])->name('kategori.index')->middleware('auth');
 
-Route::get('/dashboard/tipe-pekerjaan/data', [TipePekerjaanController::class, 'getDataTipePekerjaan'])->name('tipe_pekerjaan.data')->middleware('auth');
+Route::get('/dashboard/kategori/data', [KategoriController::class, 'getDataTipePekerjaan'])->name('kategori.data')->middleware('auth');
 
-Route::get('/dashboard/tipe-pekerjaan/create', [TipePekerjaanController::class, 'create'])->name('tipe_pekerjaan.create')->middleware('auth');
+Route::get('/dashboard/kategori/create', [KategoriController::class, 'create'])->name('kategori.create')->middleware('auth');
 
-Route::post('/dashboard/tipe-pekerjaan/store', [TipePekerjaanController::class, 'store'])->name('tipe_pekerjaan.store')->middleware('auth');
+Route::post('/dashboard/kategori/store', [KategoriController::class, 'store'])->name('kategori.store')->middleware('auth');
 
-Route::get('/dashboard/tipe-pekerjaan/{slug}/edit', [TipePekerjaanController::class, 'edit'])->name('tipe_pekerjaan.edit')->middleware('auth');
+Route::get('/dashboard/kategori/{slug}/edit', [KategoriController::class, 'edit'])->name('kategori.edit')->middleware('auth');
 
-Route::post('/dashboard/tipe-pekerjaan/update/{id}', [TipePekerjaanController::class, 'update'])->name('tipe_pekerjaan.update')->middleware('auth');
+Route::post('/dashboard/kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update')->middleware('auth');
 
-Route::delete('/dashboard/tipe-pekerjaan/delete/{id}', [TipePekerjaanController::class, 'delete'])->name('tipe_pekerjaan.delete')->middleware('auth');
+Route::delete('/dashboard/kategori/delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete')->middleware('auth');
 
 
 // ADMIN ROUTE
@@ -100,5 +100,15 @@ Route::post('/dashboard/profil-admin/store', [ProfilAdminController::class, 'sto
 
 // FRONTEND ROUTE
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+Route::get('cari', [HomeController::class, 'cari'])->name('home.cari');
+
+Route::get('/pekerjaan', [HomeController::class, 'pekerjaan'])->name('home.pekerjaan');
+
+Route::get('pekerjaan/detail/{slug}', [HomeController::class, 'show'])->name('home.show');
+
+Route::get('kategori', [HomeController::class, 'kategori'])->name('home.kategori');
+
+Route::get('pekerjaan/kategori/{id}', [HomeController::class, 'pekerjaanByKategori'])->name('home.pekerjaan.kategori');
 
 

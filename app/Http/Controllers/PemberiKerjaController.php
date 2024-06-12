@@ -39,8 +39,8 @@ class PemberiKerjaController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'nama' => "required|min:10|max:150",
-            'no_hp' => "min:12|max:20",
+            'nama' => "required",
+            'no_hp' => "max:13",
             'deskripsi' => "required|min:10",
             'email' => "min:10|max:25",
             "gambar" => "required|image|mimes:jpeg,jpg,png",
@@ -79,8 +79,8 @@ class PemberiKerjaController extends Controller
 
     public function update(Request $request, string $id) {
         $request->validate([
-            'nama' => "required|min:10|max:150",
-            'no_hp' => "min:12|max:20",
+            'nama' => "required",
+            'no_hp' => "max:13",
             'deskripsi' => "required|min:10",
             'email' => "min:10|max:25",
             "gambar" => "image|mimes:jpeg,jpg,png",
@@ -116,16 +116,19 @@ class PemberiKerjaController extends Controller
 
     public function delete(string $id) {
         $pemberi_kerja = PemberiKerja::find($id);
-        $lokasiGambar = "pemberi_kerja/";
-        File::delete($lokasiGambar. $pemberi_kerja->gambar);
 
         // $pemberi_kerja->delete();
         if($pemberi_kerja->loker()->exists()) {  
             foreach($pemberi_kerja->loker()->get() as $item) {
                 $item->delete();
                 $pemberi_kerja->delete();
+                $lokasiGambar = "pemberi_kerja/";
+                File::delete($lokasiGambar. $pemberi_kerja->gambar);
             }
         } 
+
+        $lokasiGambar = "pemberi_kerja/";
+        File::delete($lokasiGambar. $pemberi_kerja->gambar);
 
         $pemberi_kerja->delete();
 

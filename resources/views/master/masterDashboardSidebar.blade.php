@@ -56,11 +56,11 @@
           </li>
 
           <li class="sidebar-item">
-            <a class="sidebar-link" href="{{ route('tipe_pekerjaan.index') }}" aria-expanded="false">
+            <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
               <span>
                 <i class="ti ti-clock"></i>
               </span>
-              <span class="hide-menu">Tipe Pekerjaan</span>
+              <span class="hide-menu">Kategori</span>
             </a>
           </li>
 

@@ -1,7 +1,7 @@
 @extends('master.masterDashboard')
 
 @section('judul')
-    Form Tambah Data Tipe Pekerjaan
+    Form Tambah Data Kategori
 @endsection
 
 @section('namaHalaman')
@@ -20,15 +20,15 @@
 @section('content')
 <div class="container-fluid">
     <div class="container-fluid">
-        <form action="{{ route('tipe_pekerjaan.store') }}" method="POST">
+        <form action="{{ route('kategori.store') }}" method="POST">
             @csrf
             <div class="row">
 
                 <div class="col-lg">
-                    <label for="nama_tipe_pekerjaan" class="col-md-6 col-form-label">{{ __('Nama Tipe Pekerjaan*') }}</label>
-                    <input id="nama_tipe_pekerjaan" type="text" class="form-control @error('nama_tipe_pekerjaan') is-invalid @enderror" name="nama_tipe_pekerjaan" value="{{ old('nama_tipe_pekerjaan') }}" autocomplete="nama_tipe_pekerjaan">
+                    <label for="nama_kategori" class="col-md-6 col-form-label">{{ __('Nama Kategori Pekerjaan*') }}</label>
+                    <input id="nama_kategori" type="text" class="form-control @error('nama_kategori') is-invalid @enderror" name="nama_kategori" value="{{ old('nama_kategori') }}" autocomplete="nama_tipe_pekerjaan">
 
-                    @error('nama_tipe_pekerjaan')
+                    @error('nama_kategori')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
                         <strong>{{ $message }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

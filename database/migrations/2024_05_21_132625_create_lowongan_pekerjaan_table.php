@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('lowongan_pekerjaan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pemberi_kerja');
-            $table->unsignedBigInteger('id_lokasi');
-            $table->unsignedBigInteger('id_tipe_pekerjaan');
-            $table->foreign('id_pemberi_kerja')->references('id')->on('pemberi_kerja')->onDelete('cascade');
-            $table->foreign('id_lokasi')->references('id')->on('lokasi')->onDelete('cascade');
-            $table->foreign('id_tipe_pekerjaan')->references('id')->on('tipe_pekerjaan')->onDelete('cascade');
+            $table->unsignedBigInteger('pemberi_kerja_id');
+            $table->unsignedBigInteger('lokasi_id');
+            $table->unsignedBigInteger('kategori_id');
+            $table->foreign('pemberi_kerja_id')->references('id')->on('pemberi_kerja')->onDelete('cascade');
+            $table->foreign('lokasi_id')->references('id')->on('lokasi')->onDelete('cascade');
+            $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('cascade');
             $table->string('nama', 150);
             $table->string('slug');
             $table->string('batas_lamaran', 20);

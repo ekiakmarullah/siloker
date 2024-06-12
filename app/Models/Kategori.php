@@ -8,26 +8,20 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Lokasi extends Model
+class Kategori extends Model
 {
     use HasFactory;
-    protected $table = "lokasi";
-    protected $fillable = ["nama_kampung", "nama_kecamatan", "slug"];
+    protected $table = "kategori";
+    protected $fillable = ["nama_kategori", "slug"];
 
     /**
-     * Get the user that owns the Lokasi
+     * Get the user that owns the TipePekerjaan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
-     /**
-      * Get all of the comments for the Lokasi
-      *
-      * @return \Illuminate\Database\Eloquent\Relations\HasMany
-      */
+    
      public function pekerjaan(): HasMany
      {
-         return $this->hasMany(LowonganPekerjaan::class)->withDefault();
+         return $this->hasMany(LowonganPekerjaan::class, 'kategori_id', 'id');
      }
-    
 }
