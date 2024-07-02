@@ -6,8 +6,8 @@ $(function () {
   // =====================================
   var chart = {
     series: [
-      { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355, 390] },
-      { name: "Expense this month:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
+      { name: "Earnings this month:", data: [] },
+      { name: "Expense this month:", data: [] },
     ],
 
     chart: {
@@ -180,7 +180,7 @@ $(function () {
       {
         name: "Earnings",
         color: "#49BEFF",
-        data: [25, 66, 20, 40, 12, 58, 20],
+        data: [],
       },
     ],
     stroke: {

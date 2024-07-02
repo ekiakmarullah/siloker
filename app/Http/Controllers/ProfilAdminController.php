@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\PemberiKerja;
 use Illuminate\Http\Request;
 use App\Models\ProfilAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ProfilAdminController extends Controller
 {
@@ -14,7 +16,7 @@ class ProfilAdminController extends Controller
 
     public function create() {
         // dd($id);
-        $judul = "SILOKER | Halaman Buat Profil";
+        $judul = "SILOKER";
         $namaHalaman = "Buat Profil";
         $id = Auth::id();
         $profil = ProfilAdmin::where('admin_id', $id)->first();
@@ -25,35 +27,43 @@ class ProfilAdminController extends Controller
     public function store(Request $request) {
 
         $request->validate([
-            'username' => 'required',
-            'avatar' => 'image|mimes:jpeg,jpg,png'
+            'nama' => 'required',
+            'no_hp' => 'required',
+            'link' => 'required',
+            'deskripsi' => 'required',
         ]);
 
-        $id = Auth::id();
-        $admin = Admin::findOrFail(Auth::user()->id);
-        $profile = ProfilAdmin::where('admin_id', $id)->first();
+        $id = Auth::guard('web')->user()->id;
+        $profile = PemberiKerja::findOrFail($id);
 
-        $lokasiGambar = "profil_admin/";
-        if($request->has('avatar')) {
-            $namaFileGambar = time().'.'.$request->avatar->extension();
-            $request->avatar->move(public_path($lokasiGambar), $namaFileGambar);
-            $admin->profile()->updateOrCreate(
+        $lokasiGambar = "profil/";
+        if($request->has('gambar')) {
+            $namaFileGambar = time().'.'.$request->gambar->extension();
+            $request->gambar->move(public_path($lokasiGambar), $namaFileGambar);
+            $profile->profile()->updateOrCreate(
                 [
-                    'admin_id' => $admin->id
+                    'id' => $profile->id
                 ],
                 [
-                    'username' => $request->username,
-                    'avatar' => $namaFileGambar
+                    'nama' => $request->nama,
+                    'slug' => Str::slug($request->input("nama")),
+                    'no_hp' => $request->no_hp,
+                    'link' => $request->link,
+                    'deskripsi' => $request->deskripsi,
+                    'gambar' => $namaFileGambar
                 ],
             );
         }
 
-        $admin->profile()->updateOrCreate(
+        $profile->profile()->updateOrCreate(
             [
-                'admin_id' => $admin->id
+                'id' => $profile->id
             ],
             [
-                'username' => $request->username,
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'link' => $request->link,
+                'deskripsi' => $request->deskripsi,
             ]
         );
 

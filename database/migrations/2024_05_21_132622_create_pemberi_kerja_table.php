@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('pemberi_kerja', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 150);
-            $table->string('slug');
+            $table->string('email', 50)->unique();
+            $table->string('password');
+            $table->string('nama', 150)->nullable();
+            $table->string('slug')->nullable();
             $table->string('no_hp', 20)->nullable();
             $table->string('link')->nullable();
-            $table->text('deskripsi');
-            $table->string('email')->nullable();
-            $table->string('gambar');
+            $table->text('deskripsi')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

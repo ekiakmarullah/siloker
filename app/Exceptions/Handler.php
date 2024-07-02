@@ -3,10 +3,13 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Arr;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -39,10 +42,29 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+
+        $guard = Arr::get($exception->guards(), 0);
+
+        $route = 'login';
+
+        if ($guard == 'admin') {
+            $route = 'admin.login';
+        }
+
+        return redirect()->route($route);
+    }
+    
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
             //
+            
         });
     }
+
 }

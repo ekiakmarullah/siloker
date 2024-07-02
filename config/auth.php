@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'admin',
+        'passwords' => 'users',
     ],
 
     /*
@@ -38,7 +38,17 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'admin',
+            'provider' => 'users',
+        ],
+
+        'admin' => [
+           'driver' => 'session',
+           'provider' => 'admins',
+        ],
+
+        'instansi' => [
+            'driver' => 'session',
+            'provider' => 'instansis',
         ],
     ],
 
@@ -60,9 +70,19 @@ return [
     */
 
     'providers' => [
-        'admin' => [
+        'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PemberiKerja::class,
+        ],
+
+        'instansis' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PemberiKerja::class,
         ],
 
         // 'users' => [

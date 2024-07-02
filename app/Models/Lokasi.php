@@ -27,7 +27,7 @@ class Lokasi extends Model
       */
      public function pekerjaan(): HasMany
      {
-         return $this->hasMany(LowonganPekerjaan::class)->withDefault();
+         return $this->hasMany(LowonganPekerjaan::class);
      }
     
 }

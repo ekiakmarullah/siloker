@@ -60,33 +60,6 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label for="pemberi_kerja_id" class="col-md col-form-label">{{ __('Nama Pemberi Kerja*') }}</label> 
-                    <a href="{{ route('tambah_pemberi_kerja') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
-                        <span>
-                            <i class="ti ti-circle-plus"></i>
-                        </span>
-                    </a>
-                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="pemberi_kerja_id">
-
-                        <option selected disabled>Pilih Pemberi Kerja</option>
-                        @forelse ($dataPemberiKerja as $pk)
-                        <option value="{{ $pk->id }}">{{ $pk->nama }}</option>
-                        @empty
-                        <option value="">Data Pemberi Kerja Tidak Ditemukan...</option>
-                        @endforelse
-
-                    </select>
-
-                    @error('pemberi_kerja_id')
-                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-
-                </div>
-
-                <div class="col-lg-4">
                     <label for="lokasi_id" class="col-md col-form-label">{{ __('Lokasi Pekerjaan*') }}</label>
                     <a href="{{ route('lokasi.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
                         <span>
@@ -142,7 +115,7 @@
 
                 
 
-                <div class="col-lg-12">
+                <div class="col-lg-4">
                     <label for="gambar" class="col-md col-form-label">{{ __('Gambar*') }}</label>
                     <input class="form-control" type="file" id="gambar" name="gambar">
 

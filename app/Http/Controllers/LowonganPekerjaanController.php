@@ -22,7 +22,7 @@ class LowonganPekerjaanController extends Controller
 
     public function index() {
 
-        $judul = "SILOKER | Admin Tambah Lowongan Pekerjaan Page";
+        $judul = "SILOKER";
         $namaHalaman = "Semua Data Lowongan Pekerjaan";
         $id = Auth::id();
         $profil = ProfilAdmin::where('admin_id', $id)->first();
@@ -32,15 +32,17 @@ class LowonganPekerjaanController extends Controller
     }
 
     public function getDataLowonganPekerjaan() {
-        $data = DB::table('lowongan_pekerjaan')->join('pemberi_kerja', 'lowongan_pekerjaan.pemberi_kerja_id', '=', 'pemberi_kerja.id')->select("lowongan_pekerjaan.*", "lowongan_pekerjaan.nama as nama_lowongan_pekerjaan", "pemberi_kerja.nama as nama_pemberi_kerja")->latest();
+        // milih loker berdasarkan id pemberi kerja yang sedang login
+        $id = Auth::guard('web')->user()->id;
+        $data = DB::table('lowongan_pekerjaan')->join('pemberi_kerja', 'lowongan_pekerjaan.pemberi_kerja_id', '=', 'pemberi_kerja.id')->where('pemberi_kerja_id', '=', $id)->select("lowongan_pekerjaan.*","lowongan_pekerjaan.nama as nama_lowongan_pekerjaan", "pemberi_kerja.nama as nama_pemberi_kerja")->get();
 
-        //dd($data[0]->nama_pemberi_kerja);
+        // dd($data);
 
         return DataTables::of($data)->addIndexColumn()->addColumn('action', 'dashboard.lowongan_pekerjaan.action')->rawColumns(['action'])->make(true);
     }
 
     public function create() {
-        $judul = "SILOKER | Admin Tambah Lowongan Pekerjaan Page";
+        $judul = "SILOKER";
         $namaHalaman = "Tambah Data Lowongan Pekerjaan";
         $id = Auth::id();
         $profil = ProfilAdmin::where('admin_id', $id)->first();
@@ -55,7 +57,6 @@ class LowonganPekerjaanController extends Controller
     public function store(Request $request) {
         $request->validate([
             'nama' => 'required',
-            'pemberi_kerja_id' => 'required',
             'lokasi_id' => 'required',
             'kategori_id' => 'required',
             'batas_lamaran' => 'required',
@@ -71,7 +72,7 @@ class LowonganPekerjaanController extends Controller
 
         $lowongan_pekerjaan->nama = $request->nama;
         $lowongan_pekerjaan->slug = Str::slug($request->input("nama"));
-        $lowongan_pekerjaan->pemberi_kerja_id = $request->pemberi_kerja_id;
+        $lowongan_pekerjaan->pemberi_kerja_id = Auth::guard('web')->user()->id;
         $lowongan_pekerjaan->lokasi_id = $request->lokasi_id;
         $lowongan_pekerjaan->kategori_id = $request->kategori_id;
         $lowongan_pekerjaan->batas_lamaran = $request->batas_lamaran;
@@ -103,7 +104,6 @@ class LowonganPekerjaanController extends Controller
     public function update(Request $request, $id) {
         $request->validate([
             'nama' => 'required',
-            'pemberi_kerja_id' => 'required',
             'lokasi_id' => 'required',
             'kategori_id' => 'required',
             'batas_lamaran' => 'required',
@@ -126,12 +126,11 @@ class LowonganPekerjaanController extends Controller
 
         $lowongan_pekerjaan->nama = $request->nama;
         $lowongan_pekerjaan->slug = Str::slug($request->input("nama"));
-        $lowongan_pekerjaan->pemberi_kerja_id = $request->pemberi_kerja_id;
+        $lowongan_pekerjaan->pemberi_kerja_id = Auth::guard('web')->user()->id;
         $lowongan_pekerjaan->lokasi_id = $request->lokasi_id;
         $lowongan_pekerjaan->kategori_id = $request->kategori_id;
         $lowongan_pekerjaan->batas_lamaran = $request->batas_lamaran;
         $lowongan_pekerjaan->deskripsi = $request->deskripsi;
-        $lowongan_pekerjaan->gambar = $namaFileGambar;
         $lowongan_pekerjaan->besaran_gaji = $request->besaran_gaji;
 
         $lowongan_pekerjaan->save();

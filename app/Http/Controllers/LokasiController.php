@@ -83,11 +83,13 @@ class LokasiController extends Controller
     public function delete($id) {
         $lokasi = Lokasi::find($id);
 
-        if($lokasi->loker()->exists()) {  
-            foreach($lokasi->loker()->get() as $item) {
+        if($lokasi->pekerjaan()->exists()) {  
+            foreach($lokasi->pekerjaan()->get() as $item) {
                 $lokasi->delete();
             }
         } 
+
+        $lokasi->delete();
 
         return response()->json([
             'message' => "Data Lokasi Berhasil Dihapus..."

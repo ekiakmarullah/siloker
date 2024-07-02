@@ -59,37 +59,9 @@
                     @enderror
                 </div>
 
-                <div class="col-lg-4">
-                    <label for="pemberi_kerja_id" class="col-md col-form-label">{{ __('Nama Pemberi Kerja*') }}</label> 
-                    <a href="{{ route('tambah_pemberi_kerja') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
-                        <span>
-                            <i class="ti ti-circle-plus"></i>
-                        </span>
-                    </a>
-                    <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="pemberi_kerja_id">
+                
 
-                        <option selected disabled>Pilih Pemberi Kerja</option>
-                        @forelse ($dataPemberiKerja as $pk)
-                        @if ($pk->id === $pemberi_kerja->pemberi_kerja_id)
-                        <option value="{{ $pk->id }}" selected>{{ $pk->nama }}</option>
-                        @endif
-                        <option value="{{ $pk->id }}">{{ $pk->nama }}</option>
-                        @empty
-                        <option value="">Data Pemberi Kerja Tidak Ditemukan...</option>
-                        @endforelse
-
-                    </select>
-
-                    @error('pemberi_kerja_id')
-                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
-                        <strong>{{ $message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @enderror
-
-                </div>
-
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <label for="lokasi_id" class="col-md col-form-label">{{ __('Lokasi Pekerjaan*') }}</label>
                     <a href="{{ route('lokasi.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
                         <span>
@@ -99,11 +71,11 @@
                     <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="lokasi_id">
 
                         <option selected disabled>Pilih Lokasi Pekerjaan</option>
-                        @forelse ($dataLokasi as $lokasi)
-                        @if ($lokasi->id === $pemberi_kerja->lokasi_id)
-                        <option value="{{ $lokasi->id }}" selected>{{ $lokasi->nama_kampung }}</option>
+                        @forelse ($lokasi as $item)
+                        @if ($item->id === $lowongan_pekerjaan->lokasi_id)
+                        <option value="{{ $item->id }}" selected>{{ $item->nama_kampung }}</option>
                         @endif
-                        <option value="{{ $lokasi->id }}">{{ $lokasi->nama_kampung }}</option>
+                        <option value="{{ $item->id }}">{{ $item->nama_kampung }}</option>
                         @empty
                         <option value="">Data Lokasi Tidak Ditemukan...</option>
                         @endforelse
@@ -119,9 +91,9 @@
 
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <label for="kategori_id" class="col-md col-form-label">{{ __('Tipe Pekerjaan*') }}</label>
-                    <a href="{{ route('tipe_pekerjaan.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
+                    <a href="{{ route('kategori.create') }}" class="btn btn-primary btn-sm" target="__blank" title="Tambah Data Baru">
                         <span>
                             <i class="ti ti-circle-plus"></i>
                         </span>
@@ -129,11 +101,11 @@
                     <select class="form-select form-select mb-3" aria-label=".form-select-lg example" name="kategori_id">
 
                         <option selected disabled>Pilih Tipe Pekerjaan</option>
-                        @forelse ($dataTipePekerjaan as $tp)
+                        @forelse ($tipePekerjaan as $tp)
                         @if ($tp->id === $lowongan_pekerjaan->kategori_id)
-                        <option value="{{ $tp->id }}" selected>{{ $tp->nama_tipe_pekerjaan }}</option>
+                        <option value="{{ $tp->id }}" selected>{{ $tp->nama_kategori }}</option>
                         @endif
-                        <option value="{{ $tp->id }}">{{ $tp->nama_tipe_pekerjaan }}</option>
+                        <option value="{{ $tp->id }}">{{ $tp->nama_kategori }}</option>
                         @empty
                         <option value="">Data Tipe Pekerjaan Tidak Ditemukan...</option>
                         @endforelse
@@ -153,7 +125,10 @@
 
                 <div class="col-lg-12">
                     <label for="gambar" class="col-md col-form-label">{{ __('Gambar*') }}</label>
+                    @if($lowongan_pekerjaan->gambar)
+                    <img src="{{ asset('lowongan_pekerjaan/'.$lowongan_pekerjaan->gambar) }}" class="img-thumbnail d-block my-3" alt="{{ $lowongan_pekerjaan->slug }}" width="250" height="250">
                     <input class="form-control" type="file" id="gambar" name="gambar">
+                    @endif
 
                     @error('gambar')
                     <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -165,7 +140,7 @@
 
                 <div class="col-lg-12 mb-3">
                     <label for="deskripsi" class="col-md col-form-label">{{ __('Deskripsi*') }}</label>
-                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area"></textarea>
+                    <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="text-area">{{ $lowongan_pekerjaan->deskripsi }}</textarea>
 
                     @error('deskripsi')
                     <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">

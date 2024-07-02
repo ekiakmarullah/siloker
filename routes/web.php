@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -11,6 +12,10 @@ use App\Http\Controllers\PemberiKerjaController;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\InstgramAuthController;
+use App\Http\Controllers\StatusController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail; // tambahkan ini
+use App\Mail\SendEmail; // tambahkan ini
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +28,79 @@ use App\Http\Controllers\InstgramAuthController;
 |
 */
 
-// LOGIN REGISTER ROUTE
-Auth::routes();
+// LOGIN
+// Auth::routes();
+
+// LOGIN PEMBERI KERJA
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+Route::post('/logout', function () {
+    auth()->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/');
+})->name('logout');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+
+// Auth::routes(['verify' => true ]);
+
+// Route::get('/mail/send', function () {
+//     $data = [
+//         'subject' => 'Testing Kirim Email',
+//         'title' => 'Testing Kirim Email',
+//         'body' => 'Ini adalah email uji coba dari Tutorial Laravel: Send Email Via SMTP GMAIL @ qadrLabs.com'
+//     ];
+
+//     Mail::to('ekiakmarullah.sbg@gmail.com')->send(new SendEmail($data));
+
+// });
+
+
+
+
+// LOGIN ADMIN
+Route::get('admin/login', [AdminAuthController::class, 'getLogin'])->name('admin.login');
+Route::post('admin/login', [AdminAuthController::class, 'postLogin']);
+Route::post('/admin/logout', function () {
+    auth()->guard('admin')->logout();
+    session()->flush();
+    return redirect()->route('admin.login');
+})->name('admin.logout');
+
+Route::middleware('auth')->group(function() {
+
+});
+
+Route::middleware('auth:admin')->group(function(){
+    // Tulis routemu di sini.
+    Route::get('admin/dashboard', [DashboardController::class, 'indexAdmin'])->name('dashboard.admin');
+
+    Route::get('admin/dashboard/status', [StatusController::class, 'index'])->name('dashboard.admin.status');
+
+    Route::get('admin/dashboard/status/activate/{id}', [StatusController::class, 'activateStatus'])->name('status');
+
+    // PEMBERI KERJA
+    Route::get('/dashboard/pemberi-kerja/data', [PemberiKerjaController::class, 'getDataPemberiKerja'])->name('pemberi_kerja.data');
+
+    Route::get('/dashboard/pemberi-kerja', [PemberiKerjaController::class, 'index'])->name('pemberi_kerja');
+
+    Route::get('/dashboard/pemberi-kerja/tambah', [PemberiKerjaController::class, 'create'])->name('tambah_pemberi_kerja');
+
+    Route::get('/dashboard/pemberi-kerja/{slug}/edit', [PemberiKerjaController::class, 'edit'])->name('pemberi_kerja.edit');
+
+    Route::post('/dashboard/pemberi-kerja/update/{id}', [PemberiKerjaController::class, 'update']);
+
+    Route::delete('/dashboard/pemberi-kerja/delete/{id}',[PemberiKerjaController::class, 'delete'])->name("pemberi_kerja.delete");
+
+    Route::post('/dashboard/pemberi-kerja/store', [PemberiKerjaController::class, 'store'])->middleware('auth');
+  });
+
 
 // DASHBOARD ROUTE
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 // LOWONGAN PEKERJAAN ROUTE
 
@@ -48,19 +120,7 @@ Route::delete('/dashboard/lowongan-pekerjaan/delete/{id}',[LowonganPekerjaanCont
 
 // PEMBERI KERJA
 
-Route::get('/dashboard/pemberi-kerja/data', [PemberiKerjaController::class, 'getDataPemberiKerja'])->name('pemberi_kerja.data')->middleware('auth');
 
-Route::get('/dashboard/pemberi-kerja', [PemberiKerjaController::class, 'index'])->name('pemberi_kerja')->middleware('auth');
-
-Route::get('/dashboard/pemberi-kerja/tambah', [PemberiKerjaController::class, 'create'])->name('tambah_pemberi_kerja')->middleware('auth');
-
-Route::get('/dashboard/pemberi-kerja/{slug}/edit', [PemberiKerjaController::class, 'edit'])->name('pemberi_kerja.edit')->middleware('auth');
-
-Route::post('/dashboard/pemberi-kerja/update/{id}', [PemberiKerjaController::class, 'update'])->middleware('auth');
-
-Route::delete('/dashboard/pemberi-kerja/delete/{id}',[PemberiKerjaController::class, 'delete'])->name("pemberi_kerja.delete")->middleware('auth');
-
-Route::post('/dashboard/pemberi-kerja/store', [PemberiKerjaController::class, 'store'])->middleware('auth')->middleware('auth');
 
 // LOKASI ROUTE
 Route::get('/dashboard/lokasi', [LokasiController::class, 'index'])->name('lokasi.index')->middleware('auth');

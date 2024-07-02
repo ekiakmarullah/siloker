@@ -11,12 +11,12 @@
 
 <body>
 
-@if (session('session'))
+@if (session('error'))
 
-<div class="alert alert-warning alert-dismissible fade show my-2" role="alert">
-  {{ session('session') }}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="alert alert-danger" role="alert">
+    {{ session('error') }}
 </div>
+    
 @endif
 
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -32,7 +32,7 @@ data-sidebar-position="fixed" data-header-position="fixed">
               <img src="{{ asset('master/src/assets/images/logos/logo.png') }}" width="180" alt="">
             </a>
             <p class="text-center">Temukan Pekerjaan Impian Anda</p>
-            <form action="{{ route('login') }}" method="POST">
+            <form action="" method="POST">
                 @csrf
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>

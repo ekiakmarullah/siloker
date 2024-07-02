@@ -24,7 +24,7 @@
                   <img src="{{ asset('master/src/assets/images/logos/logo.png') }}" width="180" alt="">
                 </a>
                 <p class="text-center">Temukan Pekerjaan Impian Anda</p>
-                <form action="{{ route('register') }}" method="POST">
+                <form action="" method="POST">
                     @csrf
                   <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
@@ -51,7 +51,7 @@
 
                   <div class="mb-4">
                     <label for="password-confirm" class="form-label">Konfirmasi Password</label>
-                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password-confirm" name="password_confirmation" autocomplete="new-password">
+                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password-confirm" name="password_confirmation">
 
                     @error('password_confirmation')
                         <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
